@@ -20,6 +20,8 @@ public class ThreadAttacker {
 	//The main method, here starts the execution	
 	public static void main(String[] args) throws InterruptedException 
 	{
+		char[] letterOrder1 = {'i', 't', 'v'};
+		char[] letterOrder2 = {'i', 'v', 't'};
 		//tempx is a temporary string variable that we are using to create the concatenation of the password with the challenge 
 		String tempx = password + challenge;
 		//Here we create the response by computing the hash of the previously computed string object
@@ -40,6 +42,7 @@ public class ThreadAttacker {
 		try {
 			t_1.join();
 			t_2.join();
+			
 			t_3.join();
 			t_1.stop();
 			t_2.stop();
@@ -49,16 +52,21 @@ public class ThreadAttacker {
 			e.printStackTrace();
 		}
 		long elaspedTime = (System.nanoTime() - startTime)/1000000;
-		System.out.println("time in milis for threaded:" + elaspedTime);
+		System.out.println("time in milis for threaded:" + elaspedTime + "\n");
 
 		startTime = System.nanoTime();
-		String pwd = nonThreaded();
+		String pwd = nonThreaded(letterOrder1);
 		elaspedTime = (System.nanoTime() - startTime)/1000000;
-		System.out.println("time in milis for non threaded: " + elaspedTime + " password: " + pwd);
+		System.out.println("time in milis for non threaded in order i, v, t: " + elaspedTime + "\npassword: " + pwd + "\n");
+		startTime = System.nanoTime();
+		pwd = nonThreaded(letterOrder2);
+		elaspedTime = (System.nanoTime() - startTime)/1000000;
+		System.out.println("time in milis for non threaded in order t, v, i: " + elaspedTime + "\npassword: " + pwd + "\n");
+
 	}
 
-	public static String nonThreaded(){
-		char[] firstLetters = {'i', 't', 'v'};
+	public static String nonThreaded(char[] firstLetters){
+		
 		char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 		outerloop:
 		for (int i = 0; i < firstLetters.length; i++){
